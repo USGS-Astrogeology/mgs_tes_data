@@ -1,0 +1,154 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo-svc-a
+  labels:
+    name: mongo-svc-a
+    group: tes
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 27017
+    targetPort: 27017
+    protocol: TCP
+    name: mongo-svc-a
+  selector:
+    name: mongo-node1
+    instance: rod
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo-svc-b
+  labels:
+    name: mongo-svc-b
+    group: tes
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 27017
+    targetPort: 27017
+    protocol: TCP
+    name: mongo-svc-b
+  selector:
+    name: mongo-node2
+    instance: jane
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo-svc-c
+  labels:
+    name: mongo-svc-c
+    group: tes
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 27017
+    targetPort: 27017
+    protocol: TCP
+    name: mongo-svc-c
+  selector:
+    name: mongo-node3
+    instance: freddy
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mongo-rc1
+  labels:
+    name: mongo-rc
+    group: tes
+spec:
+  replicas: 1
+  selector:
+    name: mongo-node1
+  template:
+    metadata:
+      labels:
+        name: mongo-node1
+        instance: rod
+    spec:
+      containers:
+      - name: mongo-node1
+        image: kelvinrr/mongod
+        command:
+         - mongod
+         - "--replSet"
+         - my_replica_set
+        ports:
+        - containerPort: 27017
+        volumeMounts:
+        - name: mongo-persistent-storage1
+          mountPath: /data
+      volumes:
+      - name: mongo-persistent-storage1
+        hostpath:
+          path: /data/node1
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mongo-rc2
+  labels:
+    name: mongo-rc
+    group: tes
+spec:
+  replicas: 1
+  selector:
+    name: mongo-node2
+  template:
+    metadata:
+      labels:
+        name: mongo-node2
+        instance: jane
+containers:
+- name: mongo-node2
+image: kelvinrr/mongod
+command:
+ - mongod
+ - "--replSet"
+ - my_replica_set
+ports:
+- containerPort: 27017
+volumeMounts:
+- name: mongo-persistent-storage2
+  mountPath: /data
+  volumes:
+      - name: mongo-persistent-storage2
+        hostpath:
+          path: /data/node2
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mongo-rc3
+  labels:
+    name: mongo-rc
+    group: tes
+spec:
+  replicas: 1
+  selector:
+    name: mongo-node3
+  template:
+    metadata:
+      labels:
+        name: mongo-node3
+        instance: freddy
+    spec:
+containers:
+- name: mongo-node3
+  image: kelvinrr/mongod
+  command:
+   - mongod
+   - "--replSet"
+   - my_replica_set
+  ports:
+    - containerPort: 27017
+volumeMounts:
+- name: mongo-persistent-storage3
+  mountPath: /data
+  volumes:
+      - name: mongo-persistent-storage3
+        hostpath:
+          path: /data/node3

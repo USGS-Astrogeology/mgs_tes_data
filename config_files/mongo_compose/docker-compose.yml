@@ -1,0 +1,50 @@
+version: '3'
+services:
+
+  configsvr1:
+    image: kelvinrr/mongod34
+    command: --configsvr --replSet cfg
+    ports:
+     - "27021:27019"
+    volumes:
+     - /Users/kelvinrodriguez/repos/mongo_cluster/cfg1:/data
+
+  configsvr2:
+    image: "kelvinrr/mongod34"
+    command: --configsvr --replSet cfg
+    ports:
+     - "27022:27019"
+    volumes:
+     - /Users/kelvinrodriguez/repos/mongo_cluster/cfg2:/data
+
+  configsvr3:
+   image: "kelvinrr/mongod34"
+   command: --configsvr --replSet cfg
+   ports:
+    - "27023:27019"
+   volumes:
+     - /Users/kelvinrodriguez/repos/mongo_cluster/cfg3:/data
+
+  shrd1:
+    image: "kelvinrr/mongod34"
+    command: --shardsvr
+    ports:
+     - "27018:27017"
+    volumes:
+     - /Users/kelvinrodriguez/repos/mongo_cluster/node1:/data
+
+  shrd2:
+    image: "kelvinrr/mongod34"
+    command: --shardsvr
+    ports:
+     - "27019:27017"
+    volumes:
+     - /Users/kelvinrodriguez/repos/mongo_cluster/node2:/data
+
+  shrd3:
+    image: "kelvinrr/mongod34"
+    command: --shardsvr
+    ports:
+     - "27020:27017"
+    volumes:
+     - /Users/kelvinrodriguez/repos/mongo_cluster/node3:/data

@@ -1,0 +1,49 @@
+ {
+   "id": "/tes-mongodb/mongos",
+   "instances": 1,
+   "cpus": 2,
+   "mem": 8192,
+   "disk": 0,
+   "gpus": 0,
+   "backoffSeconds": 1,
+   "backoffFactor": 1.15,
+   "maxLaunchDelaySeconds": 3600,
+   "healthChecks": [{
+         "port": 27017,
+         "protocol": "TCP",
+         "gracePeriodSeconds": 5,
+         "intervalSeconds": 60,
+         "timeoutSeconds": 10,
+         "maxConsecutiveFailures": 3
+   }],
+   "container": {
+     "docker": {
+       "image": "kelvinrr/mongos",
+       "forcePullImage": false,
+       "privileged": true,
+       "network": "HOST",
+       "portMappings": [
+        {
+          "containerPort": 27017,
+          "hostPort": 0,
+          "protocol": "tcp"
+        }]
+     }
+   },
+   "args" : ["--configdb", "configsvr/configsvr-tes-mongodb.marathon.containerip.dcos.thisdcos.directory"],
+   "upgradeStrategy": {
+     "minimumHealthCapacity": 1,
+     "maximumOverCapacity": 1
+   },
+   "portDefinitions": [
+     {
+       "name" : "mongos",
+       "protocol": "tcp",
+       "port": 27017,
+       "lables" : {
+         "VIP_0" : "/mongod:27017"
+       }
+     }
+   ],
+   "requirePorts": false
+ }

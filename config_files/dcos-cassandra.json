@@ -1,0 +1,64 @@
+{
+  "id": "/cassandra",
+  "instances": 1,
+  "cpus": 2,
+  "mem": 16384,
+  "disk": 0,
+  "gpus": 0,
+  "backoffSeconds": 1,
+  "backoffFactor": 1.15,
+  "maxLaunchDelaySeconds": 3600,
+  "container": {
+    "volumes": [],
+    "docker": {
+      "image": "cassandra",
+      "forcePullImage": false,
+      "privileged": true,
+      "portMappings": [
+       {
+         "containerPort": 7000,
+         "hostPort": 0,
+         "protocol": "tcp"
+       },
+       {
+         "containerPort": 7001,
+         "hostPort": 0,
+         "protocol": "tcp"
+       },
+       {
+         "containerPort": 7199,
+         "hostPort": 0,
+         "protocol": "tcp"
+       },
+       {
+         "containerPort": 9160,
+         "hostPort": 0,
+         "protocol": "tcp"
+       }
+     ]
+    }
+  },
+  "upgradeStrategy": {
+    "minimumHealthCapacity": 1,
+    "maximumOverCapacity": 1
+  },
+  "portDefinitions": [
+    {
+      "port": 7000,
+      "protocol": "tcp"
+    },
+    {
+      "port": 7001,
+      "protocol": "tcp"
+    },
+    {
+      "port": 7199,
+      "protocol": "tcp"
+    },
+    {
+      "port": 9160,
+      "protocol": "tcp"
+    }
+  ],
+  "requirePorts": false
+}

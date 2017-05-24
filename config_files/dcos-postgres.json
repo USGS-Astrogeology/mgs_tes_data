@@ -1,0 +1,73 @@
+{
+  "volumes": [],
+  "id": "/tes-postgis",
+  "cmd": null,
+  "args": null,
+  "user": null,
+  "env": {},
+  "instances": 1,
+  "cpus": 2,
+  "mem": 32768,
+  "disk": 0,
+  "gpus": 0,
+  "executor": "",
+  "constraints": [],
+  "fetch": [],
+  "storeUrls": [],
+  "backoffSeconds": 1,
+  "backoffFactor": 1.15,
+  "maxLaunchDelaySeconds": 3600,
+  "container": {
+    "type": "DOCKER",
+    "volumes": [
+      {
+        "containerPath": "/var/lib/postgresql/data",
+        "hostPath": "/home/krodriguez/postgresdir",
+        "mode": "RW"
+      }
+    ],
+    "docker": {
+      "image": "kelvinrr/postgis",
+      "network": "BRIDGE",
+      "user" : "root",
+      "portMappings": [
+        {
+          "containerPort": 5432,
+          "hostPort": 0,
+          "servicePort": 10004,
+          "protocol": "tcp",
+          "labels": {
+            "VIP_0": "5.4.3.2:5432"
+          }
+        }
+      ],
+      "privileged": true,
+      "parameters": [],
+      "forcePullImage": false
+    }
+  },
+  "healthChecks": [
+    {
+      "protocol": "TCP",
+      "portIndex": 0,
+      "gracePeriodSeconds": 5,
+      "intervalSeconds": 60,
+      "timeoutSeconds": 10,
+      "maxConsecutiveFailures": 3,
+      "ignoreHttp1xx": false
+    }
+  ],
+  "readinessChecks": [],
+  "dependencies": [],
+  "upgradeStrategy": {
+    "minimumHealthCapacity": 1,
+    "maximumOverCapacity": 1
+  },
+  "labels": {},
+  "acceptedResourceRoles": null,
+  "ipAddress": null,
+  "residency": null,
+  "secrets": {},
+  "taskKillGracePeriodSeconds": null,
+  "requirePorts": false
+}

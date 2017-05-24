@@ -1,0 +1,78 @@
+{
+  "volumes": [],
+  "id": "/tes-mongodb/shard2",
+  "cmd": null,
+  "args": [
+    "--shardsvr",
+    "--replSet",
+    "shard2",
+    "--port 27021"
+  ],
+  "user": null,
+  "env": {},
+  "instances": 1,
+  "cpus": 2,
+  "mem": 8192,
+  "storeUrls": [],
+  "backoffSeconds": 1,
+  "backoffFactor": 1.15,
+  "maxLaunchDelaySeconds": 3600,
+  "container": {
+    "type": "DOCKER",
+    "volumes": [
+      {
+        "containerPath": "data",
+        "mode": "RW",
+        "persistent": {
+          "type": "mount",
+          "size": 9999
+        }
+      },
+      {
+        "containerPath": "/data",
+        "hostPath": "/scratch/dockerdata/mongo/shard2/",
+        "mode": "RW"
+      }
+    ],
+    "docker": {
+      "image": "kelvinrr/mongod",
+      "network": "HOST",
+      "portMappings": [
+        {
+          "containerPort": 27021,
+          "hostPort": 0,
+          "protocol": "tcp"
+        }
+      ],
+      "parameters": [
+        {
+          "key": "user",
+          "value": "79381:1800"
+        }
+      ],
+      "privileged": true,
+      "forcePullImage": true
+    }
+  },
+  "healthChecks": [{
+        "port": 27021,
+        "protocol": "TCP",
+        "gracePeriodSeconds": 5,
+        "intervalSeconds": 60,
+        "timeoutSeconds": 10,
+        "maxConsecutiveFailures": 3
+  }],
+  "readinessChecks": [],
+  "dependencies": [],
+  "upgradeStrategy": {
+    "minimumHealthCapacity": 0,
+    "maximumOverCapacity": 0
+  },
+  "labels": {},
+  "acceptedResourceRoles": null,
+  "ipAddress": null,
+  "residency": null,
+  "secrets": {},
+  "taskKillGracePeriodSeconds": null,
+  "requirePorts": false
+}

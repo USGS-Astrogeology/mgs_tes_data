@@ -22,41 +22,41 @@ import json
 total_folders = 326
 total_files = 13393
 
-def clamp_longitude(angle):
-    """
-    Returns the angle limited to the range [-180, 180], the original
-    data is in the range [0,360] but mongo uses [-180,180].
-
-    Parameters
-    ----------
-    angle : float
-       The angle to clamp
-
-    Returns
-    -------
-    : float
-       The clamped angle
-    """
-    return ((angle + 180) % 360) - 180
-
-def clamp_latitude(angle):
-    """
-    Returns the angle limited to the range [-180, 180], the original
-    data is in the range [0,360] but mongo uses [-180,180].
-
-    Parameters
-    ----------
-    angle : float
-       The angle to clamp
-
-    Returns
-    -------
-    : float
-       The clamped angle
-    """
-    return ((angle + 90) % 180) - 90
-
 def to_mongodb(data_dir, out_dir, sl):
+    def clamp_longitude(angle):
+        """
+        Returns the angle limited to the range [-180, 180], the original
+        data is in the range [0,360] but mongo uses [-180,180].
+
+        Parameters
+        ----------
+        angle : float
+           The angle to clamp
+
+        Returns
+        -------
+        : float
+           The clamped angle
+        """
+        return ((angle + 180) % 360) - 180
+
+    def clamp_latitude(angle):
+        """
+        Returns the angle limited to the range [-180, 180], the original
+        data is in the range [0,360] but mongo uses [-180,180].
+
+        Parameters
+        ----------
+        angle : float
+           The angle to clamp
+
+        Returns
+        -------
+        : float
+           The clamped angle
+        """
+        return ((angle + 90) % 180) - 90
+
     folders = [folder for folder in os.listdir(data_dir) if folder[:4] == "mgst"]
 
     search_len = len(data_dir) + 9
@@ -87,6 +87,9 @@ def to_mongodb(data_dir, out_dir, sl):
         tes_datasets = [Tes(file) for file in files]
         dfs, outliers = Tes.join(tes_datasets)
 
+        print("Num records: {}".format(dfs.shape[0]))
+        print("Num outliers: {}".format(len(outliers)))
+
         single_key_sets = {'ATM', 'POS', 'TLM', 'OBS'}
         compound_key_sets = {'BOL', 'CMP', 'GEO', 'IFG', 'PCT', 'RAD'}
         counts = dict.fromkeys(single_key_sets | compound_key_sets,0)
@@ -94,8 +97,6 @@ def to_mongodb(data_dir, out_dir, sl):
             counts[tes.dataset] = counts[tes.dataset] + 1
             tes.data.to_csv(out_dir+"/"+folder+"_"+tes.dataset+str(counts[tes.dataset])+".csv")
 
-        print("Num records: {}".format(dfs.shape[0]))
-        print("Num outliers: {}".format(len(outliers)))
         del outliers
 
         try:

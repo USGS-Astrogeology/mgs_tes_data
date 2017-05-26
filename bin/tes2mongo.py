@@ -19,43 +19,14 @@ from pandas import DataFrame
 import functools
 import json
 
+import pytes
+from pytes.utils.utils import mgs84_norm_lat
+from pytes.utils.utils import mgs84_norm_long
+
 total_folders = 326
 total_files = 13393
 
 def to_mongodb(data_dir, out_dir, sl):
-    def clamp_longitude(angle):
-        """
-        Returns the angle limited to the range [-180, 180], the original
-        data is in the range [0,360] but mongo uses [-180,180].
-
-        Parameters
-        ----------
-        angle : float
-           The angle to clamp
-
-        Returns
-        -------
-        : float
-           The clamped angle
-        """
-        return ((angle + 180) % 360) - 180
-
-    def clamp_latitude(angle):
-        """
-        Returns the angle limited to the range [-180, 180], the original
-        data is in the range [0,360] but mongo uses [-180,180].
-
-        Parameters
-        ----------
-        angle : float
-           The angle to clamp
-
-        Returns
-        -------
-        : float
-           The clamped angle
-        """
-        return ((angle + 90) % 180) - 90
 
     folders = [folder for folder in os.listdir(data_dir) if folder[:4] == "mgst"]
 
@@ -107,7 +78,7 @@ def to_mongodb(data_dir, out_dir, sl):
             for dictionary in json_objs:
                 dictionary["loc"] = {
                     "type" : "Point",
-                    "coordinates" : [clamp_longitude(dictionary["longitude"]), clamp_latitude(dictionary["latitude"])]
+                    "coordinates" : [mgs84_norm_long(dictionary["longitude"]), mgs84_norm_lat(dictionary["latitude"])]
                 }
 
             db.point_data.insert_many(json_objs, bypass_document_validation=True)

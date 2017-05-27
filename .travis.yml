@@ -57,14 +57,14 @@ install:
   - conda install pytest pytest-cov coverage sh anaconda-client
   - pip install codecov
 
-    # Straight from the menpo team
-  - if [["$TRAVIS_OS_NAME" == "osx"]]; then
-      curl -o condaci.py https://raw.githubusercontent.com/menpo/condaci/v0.4.8/condaci.py;
-    else
-      wget https://raw.githubusercontent.com/menpo/condaci/v0.4.8/condaci.py -O condaci.py;
-    fi
-    # Build autocnet and push to anaconda cloud
-  - python condaci.py setup
+  #   # Straight from the menpo team
+  # - if [["$TRAVIS_OS_NAME" == "osx"]]; then
+  #     curl -o condaci.py https://raw.githubusercontent.com/menpo/condaci/v0.4.8/condaci.py;
+  #   else
+  #     wget https://raw.githubusercontent.com/menpo/condaci/v0.4.8/condaci.py -O condaci.py;
+  #   fi
+
+  # - python condaci.py setup
 
 script:
   - pytest --cov=pytes

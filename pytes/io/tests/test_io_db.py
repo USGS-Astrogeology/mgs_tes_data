@@ -6,6 +6,6 @@ class TestUtils(unittest.TestCase):
 
     def test_init(self):
         try:
-            io_db.SparkClient.from_mongodb()
+            io_db.spark_from_mongodb()
         except Exception as e:
             self.fail("PySpark failed to initialize: {}".format(e))

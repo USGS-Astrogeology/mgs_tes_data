@@ -46,12 +46,9 @@ install:
   - conda config --set ssl_verify false
 
   - conda install python=$PYTHON_VERSION
-  - conda install -c conda-forge numpy opencv
   - conda install -c jlaura plio
-  - conda install -c conda-forge vlfeat
-  - conda install -c menpo cyvlfeat
-  - pip install pillow pysal angles
-  - conda install dill matplotlib pyspark
+  - conda install matplotlib pyspark
+  - pip install angles
 
   # Development installation
   - conda install pytest pytest-cov coverage sh anaconda-client

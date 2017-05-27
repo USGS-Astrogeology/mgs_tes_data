@@ -17,7 +17,7 @@ def mgs84_norm_lat(angle):
     """
     return normalize(angle, lower=-90, upper=90)
 
-def mgs84_norm_long(angle):  
+def mgs84_norm_long(angle):
     """
     Noralize longitude to the MGS84 datum. For storing data where only MGS84 is supported
     (e.g. MongoDB)

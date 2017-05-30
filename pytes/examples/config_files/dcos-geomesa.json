@@ -1,0 +1,74 @@
+{
+  "id": "/geomesa-hbase",
+  "instances": 1,
+  "cpus": 2,
+  "mem": 16384,
+  "disk": 0,
+  "gpus": 0,
+  "backoffSeconds": 1,
+  "backoffFactor": 1.15,
+  "maxLaunchDelaySeconds": 3600,
+  "container": {
+    "volumes": [],
+    "docker": {
+      "image": "dajobe/hbase",
+      "forcePullImage": false,
+      "privileged": true,
+      "portMappings": [
+       {
+         "containerPort": 16010,
+         "hostPort": 0,
+         "protocol": "tcp"
+       },
+       {
+         "containerPort": 2181,
+         "hostPort": 0,
+         "protocol": "tcp"
+       },
+       {
+         "containerPort": 8080,
+         "hostPort": 0,
+         "protocol": "tcp"
+       },
+       {
+         "containerPort": 8085,
+         "hostPort": 0,
+         "protocol": "tcp"
+       },
+       {
+         "containerPort": 9090,
+         "hostPort": 0,
+         "protocol": "tcp"
+       }
+
+     ]
+    }
+  },
+  "upgradeStrategy": {
+    "minimumHealthCapacity": 1,
+    "maximumOverCapacity": 1
+  },
+  "portDefinitions": [
+    {
+      "port": 16010,
+      "protocol": "tcp"
+    },
+    {
+      "port": 2181,
+      "protocol": "tcp"
+    },
+    {
+      "port": 8080,
+      "protocol": "tcp"
+    },
+    {
+      "port": 8085,
+      "protocol": "tcp"
+    },
+    {
+      "port": 9090,
+      "protocol": "tcp"
+    }
+  ],
+  "requirePorts": false
+}

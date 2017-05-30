@@ -60,7 +60,6 @@ metadata:
     name: mongo-rc
     group: tes
 spec:
-  replicas: 1
   selector:
     name: mongo-node1
   template:

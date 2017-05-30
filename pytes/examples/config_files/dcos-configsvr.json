@@ -1,0 +1,64 @@
+{
+  "volumes": [],
+  "id": "/tes-mongodb/configsvr",
+  "cmd": null,
+  "args": [
+    "--configsvr",
+    "--replSet",
+    "configsvr"
+  ],
+  "user": null,
+  "env": {},
+  "instances": 1,
+  "cpus": 2,
+  "mem": 8192,
+  "storeUrls": [],
+  "backoffSeconds": 1,
+  "backoffFactor": 1.15,
+  "maxLaunchDelaySeconds": 3600,
+  "container": {
+    "type": "DOCKER",
+    "volumes": [
+      {
+        "containerPath": "/data",
+        "hostPath": "/home/krodriguez/data/configsvr/",
+        "mode": "RW"
+      }
+    ],
+    "docker": {
+      "image": "kelvinrr/mongod",
+      "network": "HOST",
+      "portMappings": [
+        {
+          "containerPort": 27019,
+          "hostPort": 0,
+          "protocol": "tcp"
+        }
+      ],
+      "privileged": true,
+      "parameters": [],
+      "forcePullImage": false
+    }
+  },
+  "healthChecks": [{
+        "port": 27019,
+        "protocol": "TCP",
+        "gracePeriodSeconds": 5,
+        "intervalSeconds": 60,
+        "timeoutSeconds": 10,
+        "maxConsecutiveFailures": 3
+  }],
+  "readinessChecks": [],
+  "dependencies": [],
+  "upgradeStrategy": {
+    "minimumHealthCapacity": 1,
+    "maximumOverCapacity": 1
+  },
+  "labels": {},
+  "acceptedResourceRoles": null,
+  "ipAddress": null,
+  "residency": null,
+  "secrets": {},
+  "taskKillGracePeriodSeconds": null,
+  "requirePorts": false
+}

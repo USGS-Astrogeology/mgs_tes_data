@@ -4,6 +4,9 @@ branches:
 only:
   - master
 
+services:
+  - docker
+
 env:
   global:
     - BINSTAR_USER: kelvinrr
@@ -13,6 +16,8 @@ env:
 os:
   # Just stick with Linux for now, OSX on Travis is kinda crummy
   - linux
+
+before_install:
 
 install:
   # We do this conditionally because it saves us some downloading if the
@@ -47,6 +52,7 @@ install:
 
   - conda install python=$PYTHON_VERSION
   - conda install -c jlaura plio
+  - conda install geoalchemy2 geopandas
   - conda install matplotlib pyspark
   - pip install angles
 
@@ -54,12 +60,6 @@ install:
   - conda install pytest pytest-cov coverage sh anaconda-client
   - pip install codecov
 
-  #   # Straight from the menpo team
-  # - if [["$TRAVIS_OS_NAME" == "osx"]]; then
-  #     curl -o condaci.py https://raw.githubusercontent.com/menpo/condaci/v0.4.8/condaci.py;
-  #   else
-  #     wget https://raw.githubusercontent.com/menpo/condaci/v0.4.8/condaci.py -O condaci.py;
-  #   fi
 
   # - python condaci.py setup
 

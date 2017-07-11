@@ -1,11 +1,12 @@
 import unittest
 from .. import io_db
+import pytes
+
+from shapely.geometry import box
+from shapely.geometry import Point
 
 class TestUtils(unittest.TestCase):
-    # TODO: Make better tests
+    # TODO: Make actual tests
 
     def test_init(self):
-        try:
-            io_db.spark_from_mongodb()
-        except Exception as e:
-            self.fail("PySpark failed to initialize: {}".format(e))
+        pass

@@ -37,13 +37,10 @@ def setup_package():
         zip_safe=False,
         install_requires=[
             'pandas',
-            'pyyaml',
+	    'geopandas',
             'plio',
-            'cyvlfeat',
-            'pysal',
             'scipy',
-            'networkx',
-            'matplotlib',
+    	    'matplotlib',
             'angles'
         ],
         classifiers=[
